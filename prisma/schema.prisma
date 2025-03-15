@@ -24,7 +24,7 @@ model Users {
   lastname     String
   email        String   @unique
   username     String   @unique
-  role         Role     @default(USER)
+  role         Role?    @default(USER)
   currentbooks String[] @default([])
   books        Books[]
 
@@ -36,7 +36,7 @@ model Books {
   name     String @unique
   released Int
   pages    Int
-  stock    Int    @default(1)
+  stock    Int?   @default(1)
   authorId String
   author   Users  @relation(fields: [authorId], references: [id])
 
