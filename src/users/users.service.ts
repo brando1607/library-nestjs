@@ -9,7 +9,7 @@ export class UserService {
 
   async getUsers(): Promise<Users[] | string> {
     try {
-      const users = await this.db.users.findMany();
+      const users = await this.db.users.findMany({ include: { books: true } });
 
       if (users.length === 0) return 'No users yet.';
 
@@ -24,6 +24,17 @@ export class UserService {
       const user = await this.db.users.findUnique({ where: { id: id } });
 
       if (!user) return 'No user found.';
+
+      if (user.role === 'AUTHOR') {
+        const author = await this.db.users.findFirst({
+          where: { id: id },
+          include: { books: true },
+        });
+
+        if (!author) return 'Author not found';
+
+        return author;
+      }
 
       return user;
     } catch (error) {
