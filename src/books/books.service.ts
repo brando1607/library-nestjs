@@ -132,7 +132,7 @@ export class BookService {
 
       //remove from current books
 
-      const newCurrent = user.currentbooks.splice(bookIndex, 0);
+      const newCurrent = user.currentbooks.splice(bookIndex, 1);
 
       await this.db.users.update({
         where: { id: userId },
